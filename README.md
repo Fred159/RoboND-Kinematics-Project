@@ -9,18 +9,26 @@
 1. Based on classroome contents, calculate DH table.
 2. Use DH table calculate the forward kinematic. Forward kinematic start from base line ( origin coordinate 0) and end with end-effector. FK is a kind of function.
 - FK = f(theta1,theta2, ....theta6)
+![DH table](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/DH%20table.png)
+
 So if 'theta1,theta2, ....theta6'is given , then we can calculate the final position and orientation of end effector.
 3. In order to move a target into a specify position, we receive target postion in gazebo simulator. And then, use this postion, we should derive a function to calculate each joint's angle (parameter need to calculate: theta1,theta2, ....theta6). So we need to calculate Inverse kinematic(IK). IK is a function too. 
 - theta1,theta2, ....theta6 = IK(target position , target orientation)
 4. Use geometric method to derive a function to calculate theta1, theta2, theta3.
 Use inverse roration matrix to calculate theta4,theta5,theta6
 5. Run roscore and safe_spawner.
-6. Run IK_inverse.py
+![Gazebo simulator](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/2018-09-29-053522_1920x984_scrot.png)
+6. Run IK_debug.py 
+![IK_debug.py code](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/2018-09-29-053350_1920x960_scrot.png)
+![IK_debug.py result](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/2018-09-29-053323_659x408_scrot.png)
+7. Run IK_inverse.py
+
+
 
 ## Simulation results.
-
-
-
+Simulation result shows a good grip performance.
+![Simulation screencapture](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/2018-09-29-053554_1920x984_scrot.png)
+![Rviz run capture](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/2018-09-29-053611_1920x984_scrot.png)
 
 
 [![Udacity - Robotics NanoDegree Program](https://s3-us-west-1.amazonaws.com/udacity-robotics/Extra+Images/RoboND_flag.png)](https://www.udacity.com/robotics)
