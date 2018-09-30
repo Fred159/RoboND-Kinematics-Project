@@ -9,6 +9,7 @@
 1. Based on classroome contents, calculate DH table.
 2. Use DH table calculate the forward kinematic. Forward kinematic start from base line ( origin coordinate 0) and end with end-effector. FK is a kind of function.
 - FK = f(theta1,theta2, ....theta6)
+
 ![DH table](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/DH%20table.png)
 
 So if 'theta1,theta2, ....theta6'is given , then we can calculate the final position and orientation of end effector.
