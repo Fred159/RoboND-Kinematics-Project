@@ -1,3 +1,24 @@
+# Udaicty - Kinematics-Project.
+
+## This project use ROS to give manipulator each joints' target angle, to reach pre-calculated position.
+
+## In order to do this, I followed orders below. 
+
+(- Wath all the resource provided by Udacity classroom firset)
+1. Based on classroome contents, calculate DH table.
+2. Use DH table calculate the forward kinematic. Forward kinematic start from base line ( origin coordinate 0) and end with end-effector. FK is a kind of function.
+- FK = f(theta1,theta2, ....theta6)
+So if 'theta1,theta2, ....theta6'is given , then we can calculate the final position and orientation of end effector.
+3. In order to move a target into a specify position, we receive target postion in gazebo simulator. And then, use this postion, we should derive a function to calculate each joint's angle (parameter need to calculate: theta1,theta2, ....theta6). So we need to calculate Inverse kinematic(IK). IK is a function too. 
+- theta1,theta2, ....theta6 = IK(target position , target orientation)
+
+
+
+
+
+
+
+
 [![Udacity - Robotics NanoDegree Program](https://s3-us-west-1.amazonaws.com/udacity-robotics/Extra+Images/RoboND_flag.png)](https://www.udacity.com/robotics)
 # Robotic arm - Pick & Place project
 
