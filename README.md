@@ -183,6 +183,8 @@ where sin2 + cos2 = 1
 ![IK_debug.py code](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/2018-09-29-053350_1920x960_scrot.png)
 ![IK_debug.py result](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/2018-09-29-053323_659x408_scrot.png)
 ### 7. Run IK_inverse.py
+It works well in picking and placing. 
+![simulation result in rviz](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/2018-09-29-053611_1920x984_scrot.png)
 
 ## Problem
 Algorithm trajectory sometimes run with very unefficinet way. It have optimal path, but it doesn't follow that way. It needs to be optimized in future.
