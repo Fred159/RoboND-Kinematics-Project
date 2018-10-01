@@ -32,6 +32,7 @@ The parameters is obtained using the following convention
 
 ![alt text](https://raw.githubusercontent.com/lisaljl/Udacity-RoboND-Kinematics/master/code/DH.png "DH annotation")
 DH table angles in radian.
+
 | i        | a(i-1)  | a(i-1)  | d(i)    | θ(i)    |
 | :------- |:-------:|:-------:|:-------:|:-------:|
 | 1        | 0       | 0       | 0.75    |θ1       |
@@ -40,20 +41,20 @@ DH table angles in radian.
 | 4        | -90     | -0.054  | 1.5     |θ4       |
 | 5        | 90      | 0       | 0       |θ5       |
 | 6        | -90     | 0       | 0       |θ6       |
-| G        | 0       | 0       | 0.303   |0        |
+| EE        | 0       | 0       | 0.303   |0        |
 
 
 ### Forward Kinematics
 
 #### Transformation matrix for Kuka arm
-More details on how the transformation matrices are obtained, please refer to the jupyter notebook
+Transform matrix i
 ```
             T0_1 =  Matrix([
             [cos(q1), -sin(q1), 0,  0],
             [sin(q1),  cos(q1), 0,  0],
             [      0,        0, 1, d1],
             [      0,        0, 0,  1]])
-
+```
             T1_2 =  Matrix([
             [sin(q2),  cos(q2), 0, a1],
             [      0,        0, 1,  0],
@@ -84,10 +85,10 @@ More details on how the transformation matrices are obtained, please refer to th
             [-sin(q6), -cos(q6), 0, 0],
             [       0,        0, 0, 1]])
 
-            T6_G =  Matrix([
+            T6_EE =  Matrix([
             [0,  0, 1,  0],
             [0, -1, 0,  0],
-            [1,  0, 0, dG],
+            [1,  0, 0, dEE],
             [0,  0, 0,  1]])
 
             
