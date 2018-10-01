@@ -1,31 +1,32 @@
 # Udaicty - Kinematics-Project.
 
 ## This project use ROS to give manipulator each joints' target angle, to reach pre-calculated position. 
-### keyword: ROS, GAZEBO, RVIZ, Forward kinematic, inverse kinematic, geometric trigonometric function, rotation matrix, translation matrix, DH table
+#### keyword: ROS, GAZEBO, RVIZ, Forward kinematic, inverse kinematic, geometric trigonometric function, rotation matrix, translation matrix, DH table
 
 ## In order to do this, I followed orders below. 
 
 (Wath all the resource provided by Udacity classroom first)
 1. Based on classroome contents, calculate DH table.
+
 2. Use DH table calculate the forward kinematic. Forward kinematic start from base line ( origin coordinate 0) and end with end-effector. FK is a kind of function.
 - FK = f(theta1,theta2, ....theta6)
-
-![DH table](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/DH%20table.png)
-
 So if 'theta1,theta2, ....theta6'is given , then we can calculate the final position and orientation of end effector.
+
 3. In order to move a target into a specify position, we receive target postion in gazebo simulator. And then, use this postion, we should derive a function to calculate each joint's angle (parameter need to calculate: theta1,theta2, ....theta6). So we need to calculate Inverse kinematic(IK). IK is a function too. 
 - theta1,theta2, ....theta6 = IK(target position , target orientation)
+
 4. Use geometric method to derive a function to calculate theta1, theta2, theta3.
 Use inverse roration matrix to calculate theta4,theta5,theta6
+
 5. Run roscore and safe_spawner.
-![Gazebo simulator](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/2018-09-29-053522_1920x984_scrot.png)
+
 6. Run IK_debug.py 
-![IK_debug.py code](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/2018-09-29-053350_1920x960_scrot.png)
-![IK_debug.py result](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/2018-09-29-053323_659x408_scrot.png)
+
 7. Run IK_inverse.py
 
-－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
-
+## Algorithm flow
+### 1. follow the contents in udacity
+### 2. DH table
 The parameters is obtained using the following convention
 
 ![alt text](https://raw.githubusercontent.com/lisaljl/Udacity-RoboND-Kinematics/master/code/DH.png "DH annotation")
@@ -117,45 +118,19 @@ s = {
      alpha5: -pi/2}
 ```
 
-### Inverse Kinematics
+### 3.Inverse Kinematics
 Ik is obtained by splitting into two parts, this is to reduce the complexity of the calculations. One part is a RRR revolute arm, another a spherical arm. Solving the RRR revolute arm would return the joint angles for joint 1,2 and 3. While the spherical arm would give joint angles for joint 4,5 and 6
 
+### 4.Calculate theta angle
 #### RRR joint
-
+#### Angle for joint 1,2,3
 ![alt text](https://raw.githubusercontent.com/lisaljl/Udacity-RoboND-Kinematics/master/code/ik_q2q3.png "q2q3")
 We would ignore joint 4,5,6. Effectively imagine an arm with just joint 1,2,3
 
-##### Angle for joint 1
-This is the easiest angle to determine as it just atan2(y, x)
-
-##### Angle for joint 2 and 3
-We discard joint 1 for now. To calculate the angles for these two joints, it is about applying the cosine rule to obtain the angle first for angle 3, then calculating angle 2. The figure below explains how theta is obtained
-
-![alt text](https://raw.githubusercontent.com/lisaljl/Udacity-RoboND-Kinematics/master/code/ik_q2q3_triangle.png "q2q3")
-
-Forming this equation
-```
-l2 = a2
-l3 = sqrt(a3^2 + d4^2)
-β = 180 - 𝚹3
-xy = sqrt(Wc_x^2 + Wc_y^2) - a0
-z = Wc_z - d1
-```
-Using the cosine rule
-```
-D^2 = xy^2 + z^2 = l2^2 + l3 ^2 - 2(l2)(l3)cos(β)
-cos(𝚹3) = (xy^2 + z^2 - l3*l3 - l2*l2)/(2*l3*l2) = r
-𝚹3 = atan2(sqrt(1-r*r), r), where sqrt(1-r*r) = sin(𝚹3)
-𝚹3 = atan2(-sqrt(1-r*r), r)
-𝚹2 = γ - ⍺ = atan2(xy, z) - atan2(l3*sin(𝚹3), l2+l3*cos(𝚹3))
-𝚹3 = 𝚹3 - pi/2
-```
-𝚹3 has to be be minus with 90 degrees, as the start point is not vertical up, but horizontal right
-
-𝚹3 is checked to ensure it is between -pi and pi/2, as it starts horizontally
-𝚹2 is checked to be -pi to pi
 ![theta12](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/theta12.jpg)
 ![theta3](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/theta3.jpg)
+
+
 ##### Angle for joint 4,5,6
 The overall roll, pitch, yaw for the end effector relative to the base link is as follows:
 ![alt text](https://raw.githubusercontent.com/lisaljl/Udacity-RoboND-Kinematics/master/code/rot_spherical.png "rotation")
@@ -180,7 +155,7 @@ As we calculated joints 1-3, we can substitute those values in their respective 
  ```   
 Note for Rrpy we are using extrinsic rotation for X-Y-Z, as by default the method tf.transformation_matrix("","rxyz"), by default returns roll, pitch, yaw for an extrinsic rotation of  X-Y-Z. 
 ![theta 456 derive](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/theta%20456%20formula.png)
-
+![theta 456](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/theta%20456%20derive.png)
 As such the inverse rotation matrix is 
 ```
 Rxyz_ext = Rx(roll) * Ry(pitch) * Rz(yaw)
@@ -200,19 +175,21 @@ where both sin(q5) cancels out
 where sin2 + cos2 = 1
 
 ```
-![theta 456](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/theta%20456%20derive.png)
-![
-－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
-
-
 
 ## Simulation results.
-Simulation result shows a good grip performance.
-![Simulation screencapture](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/2018-09-29-053554_1920x984_scrot.png)
-![Rviz run capture](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/2018-09-29-053611_1920x984_scrot.png)
+### 5. Run roscore and safe_spawner.
+![Gazebo simulator](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/2018-09-29-053522_1920x984_scrot.png)
+### 6. Run IK_debug.py 
+![IK_debug.py code](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/2018-09-29-053350_1920x960_scrot.png)
+![IK_debug.py result](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/2018-09-29-053323_659x408_scrot.png)
+### 7. Run IK_inverse.py
+
+## Problem
+Algorithm trajectory sometimes run with very unefficinet way. It have optimal path, but it doesn't follow that way. It needs to be optimized in future.
 
 
-[![Udacity - Robotics NanoDegree Program](https://s3-us-west-1.amazonaws.com/udacity-robotics/Extra+Images/RoboND_flag.png)](https://www.udacity.com/robotics)
+------------------------------------------------------------------------------------------------------------------
+
 # Robotic arm - Pick & Place project
 
 Make sure you are using robo-nd VM or have Ubuntu+ROS installed locally.
