@@ -32,6 +32,7 @@ The parameters is obtained using the following convention
 
 ![alt text](https://raw.githubusercontent.com/lisaljl/Udacity-RoboND-Kinematics/master/code/DH.png "DH annotation")
 DH table angles in radian.
+![DH table from udacity](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/DH%20table2.png)
 
 | i        | a(i-1)  | a(i-1)  | d(i)    | θ(i)    |
 | :------- |:-------:|:-------:|:-------:|:-------:|
@@ -41,13 +42,17 @@ DH table angles in radian.
 | 4        | -90     | -0.054  | 1.5     |θ4       |
 | 5        | 90      | 0       | 0       |θ5       |
 | 6        | -90     | 0       | 0       |θ6       |
-| EE        | 0       | 0       | 0.303   |0        |
+| E        | 0       | 0       | 0.303   |0        |
 
 
 ### Forward Kinematics
 
 #### Transformation matrix for Kuka arm
-Transform matrix i
+Transfrom T0_1 represent that coordinate transfrom from 0 to 1.
+Transfrom Ti-1_i represent that coordinate transfrom from i-1 to i.
+
+Transform matrix T0_1.
+No rotation , but translate d1 in z axis
 ```
             T0_1 =  Matrix([
             [cos(q1), -sin(q1), 0,  0],
@@ -55,17 +60,27 @@ Transform matrix i
             [      0,        0, 1, d1],
             [      0,        0, 0,  1]])
 ```
+Transform matrix T1_2
+rotation in Z axis with tranlation a1 in x_1 axis.
+
+```
             T1_2 =  Matrix([
             [sin(q2),  cos(q2), 0, a1],
             [      0,        0, 1,  0],
             [cos(q2), -sin(q2), 0,  0],
             [      0,        0, 0,  1]])
-
+```
+Translation T2_3
+no rotation in z axis, translation a2 with x2 axis
+```
             T2_3 =  Matrix([
             [cos(q3), -sin(q3), 0, a2],
             [sin(q3),  cos(q3), 0,  0],
             [      0,        0, 1,  0],
-            [      0,        0, 0,  1]])
+            [      0,        0, 0,  1]])	    
+```
+Translation T3_4
+rotation with z axis 
 
             T3_4 =  Matrix([
             [ cos(q4), -sin(q4), 0, a3],
@@ -85,10 +100,10 @@ Transform matrix i
             [-sin(q6), -cos(q6), 0, 0],
             [       0,        0, 0, 1]])
 
-            T6_EE =  Matrix([
+            T6_G =  Matrix([
             [0,  0, 1,  0],
             [0, -1, 0,  0],
-            [1,  0, 0, dEE],
+            [1,  0, 0, dE],
             [0,  0, 0,  1]])
 
             
@@ -114,12 +129,6 @@ s = {
      alpha3: -pi/2, 
      alpha4: pi/2, 
      alpha5: -pi/2}
-
-TG_0 =  Matrix([
-[-(sin(q1)*sin(q4) + sin(q2 + q3)*cos(q1)*cos(q4))*sin(q5) + cos(q1)*cos(q5)*cos(q2 + q3), ((sin(q1)*sin(q4) + sin(q2 + q3)*cos(q1)*cos(q4))*cos(q5) + sin(q5)*cos(q1)*cos(q2 + q3))*sin(q6) - (sin(q1)*cos(q4) - sin(q4)*sin(q2 + q3)*cos(q1))*cos(q6), ((sin(q1)*sin(q4) + sin(q2 + q3)*cos(q1)*cos(q4))*cos(q5) + sin(q5)*cos(q1)*cos(q2 + q3))*cos(q6) + (sin(q1)*cos(q4) - sin(q4)*sin(q2 + q3)*cos(q1))*sin(q6), a1*cos(q1) + a2*sin(q2)*cos(q1) + a3*sin(q2 + q3)*cos(q1) + d4*cos(q1)*cos(q2 + q3) - d7*((sin(q1)*sin(q4) + sin(q2 + q3)*cos(q1)*cos(q4))*sin(q5) - cos(q1)*cos(q5)*cos(q2 + q3))],
-[-(sin(q1)*sin(q2 + q3)*cos(q4) - sin(q4)*cos(q1))*sin(q5) + sin(q1)*cos(q5)*cos(q2 + q3), ((sin(q1)*sin(q2 + q3)*cos(q4) - sin(q4)*cos(q1))*cos(q5) + sin(q1)*sin(q5)*cos(q2 + q3))*sin(q6) + (sin(q1)*sin(q4)*sin(q2 + q3) + cos(q1)*cos(q4))*cos(q6), ((sin(q1)*sin(q2 + q3)*cos(q4) - sin(q4)*cos(q1))*cos(q5) + sin(q1)*sin(q5)*cos(q2 + q3))*cos(q6) - (sin(q1)*sin(q4)*sin(q2 + q3) + cos(q1)*cos(q4))*sin(q6), a1*sin(q1) + a2*sin(q1)*sin(q2) + a3*sin(q1)*sin(q2 + q3) + d4*sin(q1)*cos(q2 + q3) - d7*((sin(q1)*sin(q2 + q3)*cos(q4) - sin(q4)*cos(q1))*sin(q5) - sin(q1)*cos(q5)*cos(q2 + q3))],
-[                                    -sin(q5)*cos(q4)*cos(q2 + q3) - sin(q2 + q3)*cos(q5),                                                                -(sin(q5)*sin(q2 + q3) - cos(q4)*cos(q5)*cos(q2 + q3))*sin(q6) + sin(q4)*cos(q6)*cos(q2 + q3),                                                                -(sin(q5)*sin(q2 + q3) - cos(q4)*cos(q5)*cos(q2 + q3))*cos(q6) - sin(q4)*sin(q6)*cos(q2 + q3),                                                                     a2*cos(q2) + a3*cos(q2 + q3) + d1 - d4*sin(q2 + q3) - d7*(sin(q5)*cos(q4)*cos(q2 + q3) + sin(q2 + q3)*cos(q5))],
-[                                                                                       0,                                                                                                                                                            0,                                                                                                                                                            0,                                                                                                                                                                                  1]])
 ```
 
 ### Inverse Kinematics
