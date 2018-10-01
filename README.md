@@ -26,36 +26,12 @@ Use inverse roration matrix to calculate theta4,theta5,theta6
 
 
 －－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
-## Project: Kinematics Pick & Place
-
----
-This is the write up for the Kinematics project. 
-The jupyter notebook consists of the working and calculations
-https://github.com/lisaljl/Udacity-RoboND-Kinematics/blob/master/code/Kinematics_Project_Test_Notebook.ipynb
-
-Video for the working arm
-https://youtu.be/B2PavVfN0Tg
-
-#### DH Parameters for Kuka arm
 
 The parameters is obtained using the following convention
 
 
 ![alt text](https://raw.githubusercontent.com/lisaljl/Udacity-RoboND-Kinematics/master/code/DH.png "DH annotation")
-
-
-
-| i        | a(i-1)  | a(i-1)  | d(i)    | θ(i)    |
-| :------- |:-------:|:-------:|:-------:|:-------:|
-| 1        | 0       | 0       | d1      |θ1       |
-| 2        | -90     | a1      | 0       |θ2 - 90  |
-| 3        | 0       | a2      | 0       |θ3       |
-| 4        | -90     | a3      | d4      |θ4       |
-| 5        | 90      | 0       | 0       |θ5       |
-| 6        | -90     | 0       | 0       |θ6       |
-| G        | 0       | 0       | dG      |0        |
-
-
+DH table angles in radian.
 | i        | a(i-1)  | a(i-1)  | d(i)    | θ(i)    |
 | :------- |:-------:|:-------:|:-------:|:-------:|
 | 1        | 0       | 0       | 0.75    |θ1       |
