@@ -24,11 +24,9 @@ Use inverse roration matrix to calculate theta4,theta5,theta6
 ![IK_debug.py result](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/2018-09-29-053323_659x408_scrot.png)
 7. Run IK_inverse.py
 
-
 －－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
 
 The parameters is obtained using the following convention
-
 
 ![alt text](https://raw.githubusercontent.com/lisaljl/Udacity-RoboND-Kinematics/master/code/DH.png "DH annotation")
 DH table angles in radian.
@@ -48,9 +46,11 @@ DH table angles in radian.
 ### Forward Kinematics
 
 #### Transformation matrix for Kuka arm
-Transfrom T0_1 represent that coordinate transfrom from 0 to 1.
 Transfrom Ti-1_i represent that coordinate transfrom from i-1 to i.
-
+Derive steps are follow as below.
+![0_1](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/0-1.jpg)
+![2_5](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/2-5.jpg)
+![6_EE](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/6-EE.jpg)
 ```
             T0_1 =  Matrix([
             [cos(q1), -sin(q1), 0,  0],
@@ -93,8 +93,6 @@ Transfrom Ti-1_i represent that coordinate transfrom from i-1 to i.
             [0, -1, 0,  0],
             [1,  0, 0, dE],
             [0,  0, 0,  1]])
-
-            
 ```
 #### Transformation matrix for base_link to all links
 
@@ -156,7 +154,8 @@ cos(𝚹3) = (xy^2 + z^2 - l3*l3 - l2*l2)/(2*l3*l2) = r
 
 𝚹3 is checked to ensure it is between -pi and pi/2, as it starts horizontally
 𝚹2 is checked to be -pi to pi
-
+![theta12](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/theta12.jpg)
+![theta3](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/theta3.jpg)
 ##### Angle for joint 4,5,6
 The overall roll, pitch, yaw for the end effector relative to the base link is as follows:
 ![alt text](https://raw.githubusercontent.com/lisaljl/Udacity-RoboND-Kinematics/master/code/rot_spherical.png "rotation")
@@ -172,13 +171,17 @@ Since the overall RPY (Roll Pitch Yaw) rotation between base_link and gripper_li
     ajd Rcorr is the difference in axis between the DH convention frame to the URDF frame
 
 As we calculated joints 1-3, we can substitute those values in their respective individual rotation matrices and pre-multiply both sides of eq1 by inv(R0_3) which leads to:
+![EE to WC](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/EE%20to%20wc%20in%20base%20coordinate.jpg)
+![rotation with theta456](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/rotation%20with%20theta%20456.png)
 ```
     R0_3 * R3_6 * Rcorr = Rrpy
     R3_6 = inv(R0_3) * Rrpy * Rcorr.T
     Rcorr = rot_z()*rot_y()
  ```   
-Note for Rrpy we are using extrinsic rotation for X-Y-Z, as by default the method tf.transformation_matrix("","rxyz"), by default returns roll, pitch, yaw for an extrinsic rotation of  X-Y-Z. As such the inverse rotation matrix is 
+Note for Rrpy we are using extrinsic rotation for X-Y-Z, as by default the method tf.transformation_matrix("","rxyz"), by default returns roll, pitch, yaw for an extrinsic rotation of  X-Y-Z. 
+![theta 456 derive](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/theta%20456%20formula.png)
 
+As such the inverse rotation matrix is 
 ```
 Rxyz_ext = Rx(roll) * Ry(pitch) * Rz(yaw)
 inv(Rxyz_ext) = Rz(yaw) * Ry(pitch) * Rx (roll)
@@ -197,6 +200,8 @@ where both sin(q5) cancels out
 where sin2 + cos2 = 1
 
 ```
+![theta 456](https://github.com/Fred159/RoboND-Kinematics-Project/blob/master/my%20screen%20capture/theta%20456%20derive.png)
+![
 －－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－
 
 
