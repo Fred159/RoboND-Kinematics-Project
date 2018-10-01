@@ -51,36 +51,24 @@ DH table angles in radian.
 Transfrom T0_1 represent that coordinate transfrom from 0 to 1.
 Transfrom Ti-1_i represent that coordinate transfrom from i-1 to i.
 
-Transform matrix T0_1.
-No rotation , but translate d1 in z axis
 ```
             T0_1 =  Matrix([
             [cos(q1), -sin(q1), 0,  0],
             [sin(q1),  cos(q1), 0,  0],
             [      0,        0, 1, d1],
             [      0,        0, 0,  1]])
-```
-Transform matrix T1_2
-rotation in Z axis with tranlation a1 in x_1 axis.
 
-```
             T1_2 =  Matrix([
             [sin(q2),  cos(q2), 0, a1],
             [      0,        0, 1,  0],
             [cos(q2), -sin(q2), 0,  0],
             [      0,        0, 0,  1]])
-```
-Translation T2_3
-no rotation in z axis, translation a2 with x2 axis
-```
+	    
             T2_3 =  Matrix([
             [cos(q3), -sin(q3), 0, a2],
             [sin(q3),  cos(q3), 0,  0],
             [      0,        0, 1,  0],
             [      0,        0, 0,  1]])	    
-```
-Translation T3_4
-rotation with z axis 
 
             T3_4 =  Matrix([
             [ cos(q4), -sin(q4), 0, a3],
